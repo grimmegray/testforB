@@ -1,0 +1,150 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+
+    <meta http-equiv="cleartype" content="on">
+    <meta name="viewport" content="width=device-width">
+
+    <title>ИС РСКР</title>
+
+    <link rel="shortcut icon" href="/moscow_test/content/favicon.ico">
+    <link href="/moscow_test/content/css/login.css" rel="stylesheet">
+
+    <script src="/moscow_test/content/js/jquery-2_2_0.min.js"></script>
+    <script type="text/javascript">
+        rootUrl = '/moscow_test/';
+    </script>
+</head>
+<body>
+<section class="auth">
+    <div class="auth_form">
+        <form id="onboard_form" method="post" action="" onsubmit="return false;">
+            <input type="hidden" id="force_auth" name="forceAuth" value="">
+            <input type="hidden" id="limit_check_result">
+            <div class="header">
+                Департамент капитального ремонта города Москвы
+            </div>
+            <div id="loader" class="loader" hidden=""></div>
+            <div class="body" id="form_body">
+                <label class="login">
+                    <input type="text" placeholder="Логин" name="login" id="login" value="">
+                </label>
+                <label class="pass">
+                    <input type="password" placeholder="Пароль" name="password" id="password">
+                </label>
+                <label class="error" id="error_holder" hidden="">
+                    <div class="err_msg" id="error_message">-</div>
+                </label>
+                <button type="submit" class="submit" id="submit_btn" onclick="_controller.tryLogin()">Войти</button>
+                <div class="pass_forgot">
+                    <a href="javascript:void(0);" onclick="passwordRestore(); return false;">Забыли пароль?</a>
+                </div>
+                <div class="mail-link">
+                    По вопросам работы в системе: <a href="mailto:fkr-po@dom.mos.ru">fkr-po@dom.mos.ru</a>
+                </div>
+                <button type="button" class="cancel" id="cancel_btn" hidden="" onclick="_controller.onReset()">Отмена</button>
+            </div>
+        </form>
+    </div>
+</section>
+<script>
+    !function (a) { "function" == typeof define && define.amd ? define(["jquery"], a) : a("object" == typeof module && module.exports ? require("jquery") : jQuery) }(function (a) { function b(b) { var c = {}, d = /^jQuery\d+$/; return a.each(b.attributes, function (a, b) { b.specified && !d.test(b.name) && (c[b.name] = b.value) }), c } function c(b, c) { var d = this, f = a(this); if (d.value === f.attr(h ? "placeholder-x" : "placeholder") && f.hasClass(n.customClass)) if (d.value = "", f.removeClass(n.customClass), f.data("placeholder-password")) { if (f = f.hide().nextAll('input[type="password"]:first').show().attr("id", f.removeAttr("id").data("placeholder-id")), b === !0) return f[0].value = c, c; f.focus() } else d == e() && d.select() } function d(d) { var e, f = this, g = a(this), i = f.id; if (!d || "blur" !== d.type || !g.hasClass(n.customClass)) if ("" === f.value) { if ("password" === f.type) { if (!g.data("placeholder-textinput")) { try { e = g.clone().prop({ type: "text" }) } catch (j) { e = a("<input>").attr(a.extend(b(this), { type: "text" })) } e.removeAttr("name").data({ "placeholder-enabled": !0, "placeholder-password": g, "placeholder-id": i }).bind("focus.placeholder", c), g.data({ "placeholder-textinput": e, "placeholder-id": i }).before(e) } f.value = "", g = g.removeAttr("id").hide().prevAll('input[type="text"]:first').attr("id", g.data("placeholder-id")).show() } else { var k = g.data("placeholder-password"); k && (k[0].value = "", g.attr("id", g.data("placeholder-id")).show().nextAll('input[type="password"]:last').hide().removeAttr("id")) } g.addClass(n.customClass), g[0].value = g.attr(h ? "placeholder-x" : "placeholder") } else g.removeClass(n.customClass) } function e() { try { return document.activeElement } catch (a) { } } var f, g, h = !1, i = "[object OperaMini]" === Object.prototype.toString.call(window.operamini), j = "placeholder" in document.createElement("input") && !i && !h, k = "placeholder" in document.createElement("textarea") && !i && !h, l = a.valHooks, m = a.propHooks, n = {}; j && k ? (g = a.fn.placeholder = function () { return this }, g.input = !0, g.textarea = !0) : (g = a.fn.placeholder = function (b) { var e = { customClass: "placeholder" }; return n = a.extend({}, e, b), this.filter((j ? "textarea" : ":input") + "[" + (h ? "placeholder-x" : "placeholder") + "]").not("." + n.customClass).not(":radio, :checkbox, [type=hidden]").bind({ "focus.placeholder": c, "blur.placeholder": d }).data("placeholder-enabled", !0).trigger("blur.placeholder") }, g.input = j, g.textarea = k, f = { get: function (b) { var c = a(b), d = c.data("placeholder-password"); return d ? d[0].value : c.data("placeholder-enabled") && c.hasClass(n.customClass) ? "" : b.value }, set: function (b, f) { var g, h, i = a(b); return "" !== f && (g = i.data("placeholder-textinput"), h = i.data("placeholder-password"), g ? (c.call(g[0], !0, f) || (b.value = f), g[0].value = f) : h && (c.call(b, !0, f) || (h[0].value = f), b.value = f)), i.data("placeholder-enabled") ? ("" === f ? (b.value = f, b != e() && d.call(b)) : (i.hasClass(n.customClass) && c.call(b), b.value = f), i) : (b.value = f, i) } }, j || (l.input = f, m.value = f), k || (l.textarea = f, m.value = f), a(function () { a(document).delegate("form", "submit.placeholder", function () { var b = a("." + n.customClass, this).each(function () { c.call(this, !0, "") }); setTimeout(function () { b.each(d) }, 10) }) }), a(window).bind("beforeunload.placeholder", function () { var b = !0; try { "javascript:void(0)" === document.activeElement.toString() && (b = !1) } catch (c) { } b && a("." + n.customClass).each(function () { this.value = "" }) })) });
+    $(document).ready(function() {
+        $('input, textarea').placeholder();
+
+        var controller = function() {
+            var me = this,
+                checkResultEl = document.getElementById('limit_check_result'),
+                formEl = document.getElementById('onboard_form'),
+                submitBtn = document.getElementById('submit_btn'),
+                cancelBtn = document.getElementById('cancel_btn'),
+                errorEl = document.getElementById('error_holder'),
+                errorMsgEl = document.getElementById('error_message'),
+                forceAuthEl = document.getElementById('force_auth'),
+                formBodyEl = document.getElementById('form_body'),
+                loaderEl = document.getElementById('loader'),
+                setVisible = function(el, visible) {
+                    el.hidden = !visible;
+                },
+                toggleLoader = function() {
+                    loaderEl.hidden = !loaderEl.hidden;
+
+                    if (!loaderEl.hidden) {
+                        loaderEl.style.width = formBodyEl.clientWidth + 'px';
+                        loaderEl.style.height = formBodyEl.clientHeight + 'px';
+                    }
+
+                    Array.prototype.forEach.call(formBodyEl.querySelectorAll('button'), function(el) {
+                        el.disabled = !loaderEl.hidden;
+                    });
+                };
+
+            this.tryLogin = function() {
+                if (!checkResultEl.value) {
+                    me.checkUserLimit();
+                } else {
+                    me.forceLogin();
+                }
+
+                return false;
+            };
+
+            this.checkUserLimit = function() {
+                var xhttp = new XMLHttpRequest();
+                toggleLoader();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4) {
+                        var resp = JSON.parse(xhttp.responseText);
+
+                        checkResultEl.value = resp.success ? true : null;
+
+                        if (!resp.success) {
+                            toggleLoader();
+                            setVisible(errorEl, true);
+                            errorMsgEl.innerText = resp.message;
+                            return;
+                        }
+
+                        if (resp.limitUser) {
+                            submitBtn.type = 'button';
+                            toggleLoader();
+                            setVisible(errorEl, true);
+                            errorMsgEl.innerText = 'Превышено максимальное количество подключений для учетной записи. Прервать один из предыдущих сеансов?';
+                            setVisible(cancelBtn, true);
+                            return;
+                        }
+
+                        formEl.submit();
+                    }
+                };
+
+                xhttp.open('POST', rootUrl + 'Login/CheckLimitUser', true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send('login=' + document.getElementById('login').value + '&password=' + document.getElementById('password').value);
+            };
+
+            this.forceLogin = function() {
+                toggleLoader();
+                forceAuthEl.value = 'true';
+                formEl.submit();
+            };
+
+            this.onReset = function() {
+                submitBtn.type = 'submit';
+                checkResultEl.value = null;
+                setVisible(errorEl, false);
+                errorMsgEl.innerText = '';
+                setVisible(cancelBtn, false);
+                formEl.reset();
+            };
+        };
+
+        window._controller = new controller;
+    });
+
+    function passwordRestore() {
+        window.location.replace(rootUrl + 'Login/ForgotPassword');
+    }
+
+</script>
+
+</body></html>
